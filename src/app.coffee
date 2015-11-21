@@ -11,8 +11,14 @@ webhook = new WebHook
 db = new Database
 db.on 'load', ->
   port = process.env.MINI_BREAKPAD_SERVER_PORT ? 1127
-  app.listen port
-  console.log "Listening on port #{port}"
+  host = process.env.MINI_BREAKPAD_SERVER_HOSTNAME ? null
+
+  if host == null
+    app.listen port
+    console.log "Listening on port #{port}"
+  else
+    app.listen port, host
+    console.log "Listening on hostname #{host}, port #{port}"
 
 app.set 'views', path.resolve(__dirname, '..', 'views')
 app.set 'view engine', 'jade'
