@@ -49,8 +49,10 @@ root =
   else
     ''
 
+columns = (process.env.MINI_BREAKPAD_SERVER_COLUMNS || '').split(',')
+
 app.get "/#{root}", (req, res, next) ->
-  res.render 'index', title: 'Crash Reports', records: db.getAllRecords()
+  res.render 'index', title: 'Crash Reports', records: db.getAllRecords(), columns: columns
 
 app.get "/#{root}view/:id", (req, res, next) ->
   db.restoreRecord req.params.id, (err, record) ->
